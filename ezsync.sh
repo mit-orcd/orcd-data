@@ -29,10 +29,8 @@ find "$src" -maxdepth 1 -mindepth 1 -type d ! -name "restor*" -print0 | while IF
   echo $rsync_src
   echo $rsync_dest
 
-  #echo rsync -PavSH $OPT -o -g "$rsync_src" "$rsync_dest"
-
   run_rsync() {
-    rsync -PavSH $OPT -o -g "$rsync_src" "$rsync_dest"
+    rsync -PavSHu $OPT -o -g "$rsync_src" "$rsync_dest"
   }
 
   while [[ $(pgrep -f "rsync -P" | wc -l) -ge 500 ]]; do
@@ -44,7 +42,7 @@ find "$src" -maxdepth 1 -mindepth 1 -type d ! -name "restor*" -print0 | while IF
 
 done
 
-rsync -PavSH $OPT --exclude '*/' -o -g  "$src/"  "$dest"
+rsync -PavSHu $OPT --exclude '*/' -o -g  "$src/"  "$dest"
 
 echo "rsync completed."
 
